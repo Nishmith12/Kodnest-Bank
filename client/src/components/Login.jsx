@@ -8,7 +8,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     // Use environment variable or default to localhost:3000
-    const API_URL = 'http://localhost:3000';
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
