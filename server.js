@@ -88,7 +88,7 @@ app.post('/register', async (req, res) => {
         res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Server Error: ' + err.message });
     }
 });
 
@@ -146,7 +146,7 @@ app.get('/balance', authenticateToken, async (req, res) => {
         res.json({ balance: users[0].balance, username: username });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Server Error: ' + err.message });
     }
 });
 
