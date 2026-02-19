@@ -122,14 +122,15 @@ app.post('/login', async (req, res) => {
         // Set Cookie
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Set secure in production
+            secure: true, // Required for SameSite: None
+            sameSite: 'None', // Required for cross-site (Vercel -> Render)
             maxAge: 3600000
         });
 
         res.status(200).json({ message: 'Login successful', redirect: '/dashboard.html' });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Server Error: ' + err.message });
     }
 });
 
