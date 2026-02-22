@@ -162,7 +162,7 @@ app.post('/api/chat', authenticateToken, async (req, res) => {
     const { messages } = req.body; // Expecting an array of messages: [{role: 'user', content: 'hello'}]
 
     // Use placeholders for now, user needs to provide these in .env
-    const HF_API_URL = process.env.HUGGINGFACE_ENDPOINT || 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-Coder-V2-Instruct';
+    const HF_API_URL = process.env.HUGGINGFACE_ENDPOINT || 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3';
     const HF_API_KEY = process.env.HUGGINGFACE_API_KEY;
 
     if (!HF_API_KEY) {
