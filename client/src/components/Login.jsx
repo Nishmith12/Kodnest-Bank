@@ -30,29 +30,44 @@ const Login = () => {
     };
 
     return (
-        <div className="glass-container">
-            <h2>Welcome Back</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <button type="submit">Sign In</button>
-            </form>
-            {error && <div className="error-msg">{error}</div>}
-            <Link to="/register">New here? Create an account</Link>
+        <div className="auth-page">
+            <div className="auth-card">
+                <div className="auth-header">
+                    <div className="brand-dot"></div>
+                    <h2>Kodbank</h2>
+                </div>
+                <h3>Welcome Back</h3>
+                <p className="auth-subtitle">Sign in to continue to your dashboard.</p>
+                <form onSubmit={handleSubmit} className="auth-form">
+                    <div className="form-group">
+                        <label>Username</label>
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="••••••••"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    {error && <div className="error-msg">{error}</div>}
+                    <button type="submit" className="btn-primary auth-submit">Sign In</button>
+                </form>
+                <div className="auth-footer">
+                    <Link to="/register">New here? Create an account</Link>
+                </div>
+            </div>
         </div>
     );
 };

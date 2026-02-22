@@ -32,45 +32,66 @@ const Register = () => {
     };
 
     return (
-        <div className="glass-container">
-            <h2>Create Account</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="uname"
-                    placeholder="Username"
-                    value={formData.uname}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email Address"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="phone"
-                    placeholder="Phone Number"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                />
-                <button type="submit">Sign Up</button>
-            </form>
-            {error && <div className="error-msg">{error}</div>}
-            <Link to="/login">Already have an account? Login</Link>
+        <div className="auth-page">
+            <div className="auth-card">
+                <div className="auth-header">
+                    <div className="brand-dot"></div>
+                    <h2>Kodbank</h2>
+                </div>
+                <h3>Create Account</h3>
+                <p className="auth-subtitle">Join Kodbank to manage your finances.</p>
+                <form onSubmit={handleSubmit} className="auth-form">
+                    <div className="form-group">
+                        <label>Username</label>
+                        <input
+                            type="text"
+                            name="uname"
+                            placeholder="username"
+                            value={formData.uname}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Email Address</label>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="name@example.com"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="••••••••"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Phone Number</label>
+                        <input
+                            type="text"
+                            name="phone"
+                            placeholder="+1 234 567 890"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    {error && <div className="error-msg">{error}</div>}
+                    <button type="submit" className="btn-primary auth-submit">Sign Up</button>
+                </form>
+                <div className="auth-footer">
+                    <Link to="/login">Already have an account? Sign In</Link>
+                </div>
+            </div>
         </div>
     );
 };
