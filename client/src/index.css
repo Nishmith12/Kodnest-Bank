@@ -390,17 +390,30 @@ body {
   display: flex;
   gap: 10px;
   flex-direction: row;
-  /* override global form */
+  align-items: center;
 }
 
 .chat-input-area input {
   margin: 0;
   background: var(--bg-main);
   border: 1px solid var(--border-color);
+  flex: 1;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input-area input:focus {
+  border-color: var(--secondary);
 }
 
 .chat-input-area button {
-  width: 48px;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
   margin: 0;
   padding: 0;
   display: flex;
@@ -408,6 +421,15 @@ body {
   justify-content: center;
   background: var(--secondary);
   color: #141416;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.chat-input-area button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .spinner {
