@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -154,6 +155,49 @@ app.get('/balance', authenticateToken, async (req, res) => {
 app.post('/logout', (req, res) => {
     res.clearCookie('token');
     res.json({ message: 'Logged out' });
+});
+
+// --- AI Chat Proxy ---
+app.post('/api/chat', authenticateToken, async (req, res) => {
+    const { messages } = req.body; // Expecting an array of messages: [{role: 'user', content: 'hello'}]
+
+    // Use placeholders for now, user needs to provide these in .env
+    const HF_API_URL = process.env.HUGGINGFACE_ENDPOINT || 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-Coder-V2-Instruct';
+    const HF_API_KEY = process.env.HUGGINGFACE_API_KEY;
+
+    if (!HF_API_KEY) {
+        return res.status(500).json({ error: 'Hugging Face API key not configured on server.' });
+    }
+
+    try {
+        const response = await axios.post(
+            HF_API_URL,
+            {
+                // Format depends heavily on the specific HF model. 
+                // Many conversational models on HF Inference API expect 'inputs' as a string or a specific structure.
+                // Assuming a typical text-generation-inference payload structure
+                inputs: messages.map(m => `${m.role}: ${m.content}`).join('\n') + '\nassistant: ',
+                parameters: {
+                    max_new_tokens: 500,
+                    return_full_text: false,
+                }
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${HF_API_KEY}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        // Extracting response. Format varies by model. Usually an array with `generated_text`.
+        const reply = response.data[0]?.generated_text || 'No response from AI.';
+        res.json({ reply });
+
+    } catch (err) {
+        console.error('HF Proxy Error:', err.response?.data || err.message);
+        res.status(500).json({ error: 'Failed to communicate with AI provider.' });
+    }
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
