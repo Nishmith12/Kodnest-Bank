@@ -161,8 +161,7 @@ app.post('/logout', (req, res) => {
 app.post('/api/chat', authenticateToken, async (req, res) => {
     const { messages } = req.body; // Expecting an array of messages: [{role: 'user', content: 'hello'}]
 
-    // Use placeholders for now, user needs to provide these in .env
-    const HF_API_URL = process.env.HUGGINGFACE_ENDPOINT || 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3';
+    const HF_API_URL = process.env.HUGGINGFACE_ENDPOINT || 'https://router.huggingface.co/v1/chat/completions';
     const HF_API_KEY = process.env.HUGGINGFACE_API_KEY;
 
     if (!HF_API_KEY) {
@@ -173,14 +172,9 @@ app.post('/api/chat', authenticateToken, async (req, res) => {
         const response = await axios.post(
             HF_API_URL,
             {
-                // Format depends heavily on the specific HF model. 
-                // Many conversational models on HF Inference API expect 'inputs' as a string or a specific structure.
-                // Assuming a typical text-generation-inference payload structure
-                inputs: messages.map(m => `${m.role}: ${m.content}`).join('\n') + '\nassistant: ',
-                parameters: {
-                    max_new_tokens: 500,
-                    return_full_text: false,
-                }
+                model: 'Qwen/Qwen2.5-72B-Instruct',
+                messages: messages,
+                max_tokens: 500
             },
             {
                 headers: {
@@ -190,8 +184,7 @@ app.post('/api/chat', authenticateToken, async (req, res) => {
             }
         );
 
-        // Extracting response. Format varies by model. Usually an array with `generated_text`.
-        const reply = response.data[0]?.generated_text || 'No response from AI.';
+        const reply = response.data.choices[0].message.content || 'No response from AI.';
         res.json({ reply });
 
     } catch (err) {
